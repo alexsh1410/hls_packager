@@ -117,19 +117,9 @@ Better ordering: put a middle variant first (medium), which starts reliably on m
 ## What I would improve with more time
 
 - **Decode once:** one ffmpeg with a `split` filter and three outputs, as a second `IEncoder`
-  implementation (see questions 1 and 3).
+  implementation.
 - **Retries and a ladder-integrity policy** for partial failures (question 4).
 - **Automated tests:** unit tests for the playlist writer, and orchestrator tests using a fake
   `IEncoder` to exercise failure, `--strict` cancellation and the duration check without ffmpeg,
-  plus an end-to-end test on a short generated clip. Apple's `mediastreamvalidator` should run in
-  CI.
-- **Probe the input first:** don't upscale a 720p source to 1080p, warn about inputs without
-  audio, and keep the source frame rate in the ladder.
-- **Richer master playlist:** `CODECS` (recommended by RFC 8216) and `AVERAGE-BANDWIDTH`.
+  plus an end-to-end test on a short generated clip. 
 - **Progress reporting** using ffmpeg's `-progress` output, and a timeout per encode.
-- **Configurable ladder and segment length** from the CLI or a JSON file. `Job` already supports
-  this; only `main.cpp` hardcodes the ladder.
-- **fMP4/CMAF segments** (`EXT-X-VERSION:7`, `#EXT-X-MAP`) to share one set of segments between HLS
-  and DASH.
-- **Atomic playlist writes** (temporary file + rename), needed for live output.
-- **Windows support** for `runProcess` (`CreateProcess`), and a Dockerfile for reproducible builds.
